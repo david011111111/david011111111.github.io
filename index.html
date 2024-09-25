@@ -50,3 +50,67 @@ Nome: HENRIQUE CAVALCANTE SILVA - Nº: 29.
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             }
         };
+
+        function component(width, height, color, x, y) {
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.update = function() {
+                var ctx = myGameArea.context;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            this.move = function(dir) {
+                const step = 5;
+                switch (dir) {
+                    case 'up':
+                        this.y -= step;
+                        break;
+                    case 'down':
+                        this.y += step;
+                        break;
+                    case 'left':
+                        this.x -= step;
+                        break;
+                    case 'right':
+                        this.x += step;
+                        break;
+                }
+            }
+        }
+
+        function updateGameArea() {
+            myGameArea.clear();
+            myGamePiece.update();
+        }
+
+        function startMoving(dir) {
+            moveInterval = setInterval(() => myGamePiece.move(dir), 20);
+        }
+
+        function stopMoving() {
+            clearInterval(moveInterval);
+        }
+
+        function handleMouseDown(dir) {
+            startMoving(dir);
+        }
+
+        function handleMouseUp() {
+            stopMoving();
+        }
+    </script>
+</head>
+<body onload="startGame();">
+    <div class="controls">
+        <button onmousedown="handleMouseDown('up')" onmouseup="handleMouseUp()">Cima</button>
+        <br>
+        <button onmousedown="handleMouseDown('left')" onmouseup="handleMouseUp()">Esquerda</button>
+        <button onmousedown="handleMouseDown('right')" onmouseup="handleMouseUp()">Direita</button>
+        <br>
+        <button onmousedown="handleMouseDown('down')" onmouseup="handleMouseUp()">Baixo</button>
+    </div>
+</body>
+</html>
